@@ -1,32 +1,14 @@
-const initialState = {
-    strand: "C"
-};
+const rnaTranscriptionReducer = require("./index.js");
 
-function rnaTranscriptionReducer(state = initialState, action) {
-    if (action.dnaStrand === "C") {
-        return {
-            strand: "G"
-        }
-    }
-    return initialState;
-}
 describe("RNA transcription", function() {
-    test("changes 'G' to 'C'", function() {
-        expect(rnaTranscriptionReducer({
-            strand: ""
-        },
-        {
+    function expectTranscription(dna, rna) {
+        expect(rnaTranscriptionReducer({}, {
             type: "TRANSCRIBE_TO_RNA",
-            dnaStrand: "G"
-        }).strand).toBe("C");
-    });
-    test("changes 'C' to 'G'", function() {
-        expect(rnaTranscriptionReducer({
-            strand: ""
-        },
-        {
-            type: "TRANSCRIBE_TO_RNA",
-            dnaStrand: "C"
-        }).strand).toBe("G");
-    });
+            dnaStrand: dna 
+        }).strand).toBe(rna); 
+    }
+    test("changes 'G' to 'C'", () => expectTranscription("G", "C"));
+    test("changes 'C' to 'G'", () => expectTranscription("C", "G"));
+    test("Changes 'A' to 'U'", () => expectTranscription("A", "U"));
+    test("Changes 'T' to 'A'", () => expectTranscription("T", "A"));
 });
